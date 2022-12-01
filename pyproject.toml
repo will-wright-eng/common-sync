@@ -25,11 +25,12 @@ classifiers = [  #! Update me
   "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
 ]
 
 [tool.poetry.scripts]
 # Entry points for the package https://python-poetry.org/docs/pyproject/#scripts
-"common-sync" = "common_sync.__main__:app"
+"csync" = "common_sync.__main__:app"
 
 [tool.poetry.dependencies]
 python = "^3.9"
