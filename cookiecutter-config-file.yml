@@ -1,0 +1,13 @@
+# This file contains values from Cookiecutter
+
+default_context:
+  project_name: "common-sync"
+  project_description: "sync common files accross github repos"
+  organization: "common-sync"
+  license: "GNU GPL v3.0"
+  minimal_python_version: 3.9
+  github_name: "common-sync"
+  email: "hello@common-sync.com"
+  version: "0.1.0"
+  line_length: "120"
+  create_example_template: "cli"
