@@ -17,3 +17,8 @@ def hello(name: str) -> str:
             'Hello Roman!'
     """
     return f"Hello {name}!"
+
+
+def echo_dict(input_dict: dict):
+    for key, val in input_dict.items():
+        echo(f"{key[:18]+'..' if len(key)>17 else key}{(20-int(len(key)))*'.'}{val}")
