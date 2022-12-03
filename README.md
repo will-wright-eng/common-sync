@@ -1,5 +1,7 @@
 # common-sync
 
+## Template README
+
 <div align="center">
 
 [![Build status](https://github.com/common-sync/common-sync/workflows/build/badge.svg?branch=master&event=push)](https://github.com/common-sync/common-sync/actions?query=workflow%3Abuild)
