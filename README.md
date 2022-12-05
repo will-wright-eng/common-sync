@@ -1,5 +1,81 @@
 # common-sync
 
+## Summary
+
+The purpose of this project is to sync common files across github repos
+
+### Problem Statement
+
+The manual process of managing files/setup/configs across personal project is arduous. File sync tools are nothing new but I want to build a custom CLI to do the job
+
+### Taxonomy
+
+library: set of books
+book: set of files and their default setup
+pages: directory with templated files
+index: location of files in repo
+
+*for example*
+
+---
+
+book: **all repos**
+pages:
+- root
+  - `LICENSE`
+  - `CODEOWNERS`
+  - `README.md`
+  - `.markdownlint.jsonc`
+- .github/
+  - `.stale.yml`
+  - `PULL_REQUEST_TEMPLATE.md`
+  - `dependabot.yml`
+- .github/ISSUE_TEMPLATE/
+  - `bug_report.md`
+  - `config.yml`
+  - `feature_request.md`
+  - `question.md`
+
+---
+
+book: **python package**
+- inherits: all repos
+pages:
+- root
+  - `.pre-commit-config.yaml`
+  - `.gitignore`
+  - `LICENSE`
+  - `CODEOWNERS`
+  - `setup.cfg`
+  - `setup.py` OR `pyyproject.toml`
+- .github/workflows/
+  - `publish.yml`
+
+---
+
+book: **python app**
+- inherits: python package
+pages:
+- root
+  - `.dockerignore`
+- .github/workflows/
+  - `publish.yml`
+
+---
+
+book: **javascript extension**
+pages:
+- root
+  - `.eslintrc.js`
+  - `.gitignore`
+  - `LICENSE`
+  - `CODEOWNERS`
+- .github/
+
+## Other Projects
+
+-https://github.com/haiwen/seafile
+
 ## Template README
 
 <div align="center">
