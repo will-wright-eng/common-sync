@@ -16,7 +16,7 @@ def hello(name: str) -> str:
             >>> hello("Roman")
             'Hello Roman!'
     """
-    return f"Hello {name}!"
+    return f"Hello {name.title()}!"
 
 
 def echo_dict(input_dict: dict):

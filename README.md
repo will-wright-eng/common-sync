@@ -56,7 +56,7 @@ pages:
 book: **python app**
 - inherits: python package
 pages:
-- root
+  - root
   - `.dockerignore`
 - .github/workflows/
   - `publish.yml`
