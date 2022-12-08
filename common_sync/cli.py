@@ -1,6 +1,7 @@
 """csync cli docstring"""
 
 import json
+import os
 import pathlib
 from pprint import pprint
 
@@ -31,13 +32,64 @@ def init():
     echo("TODO")
 
 
+def check_git_repo():
+    tmp = [str(i) for i in pathlib.Path(".").glob("*")]
+    if ".git" in tmp:
+        echo("lacation: in git repo root")
+        # echo_list(tmp)
+        return True
+    else:
+        echo(".git not found; move to root of git repo", err=True)
+        echo_list(tmp)
+        return False
+
+
 @cli.command()
-@click.option("-f", "--filename", "filename", required=True)
+@click.option("-f", "--filename", "filename", default=None)
 def check(filename):
     """
     check sync against filename in other repos
     """
-    echo("TODO")
+    if not check_git_repo():
+        return False
+
+    if not filename:
+        tmp = {}
+        for i, file in enumerate(pathlib.Path(".").glob("*")):
+            echo(f"{str(i)} {(5-len(str(i)))*'-'} {file}")
+            tmp.update({i: file})
+
+        resp = click.prompt("Which file?", type=int)
+        try:
+            target_file = tmp[resp]
+            echo(f"checking {target_file}")
+        except KeyError as e:
+            echo(e)
+            echo("invalid value provided")
+    else:
+        target_file = filename
+
+    repos = get_repos(for_echo=False)
+    exists_in = []
+    # check repos for target file
+    # echo(repos)
+    for repo_name, repo_path in repos.items():
+        print(repo_path)
+        for val in repo_path.glob("*"):
+            # print(f"{target_file} -- {str(target_file) == os.path.split(val)[-1]} --{os.path.split(val)[-1]}")
+            # exists_in.append(set([i for i in repo_path.glob('*') if target_file==i])[0])
+            if str(target_file) == os.path.split(val)[-1]:
+                exists_in.append(repo_name)
+
+    exists_in = list(set(exists_in))
+    echo(f"matching repos: {len(exists_in)}")
+    echo_list(exists_in)
+
+
+def echo_list(list_obj):
+    for obj in list_obj:
+        echo("\n")
+        echo(f"- {str(obj)}")
 
 
 def formatted_echo(echo_list):
@@ -57,16 +109,17 @@ def get_repos(for_echo=False, level: int = 2):
             if ".git" in str(a):
                 tmp = str(a).replace(str(root), "").split("/")
                 try:
-                    res.update({tmp[tmp.index(".git") - 1]: str(a) if for_echo else a})
+                    res.update({tmp[tmp.index(".git") - 1]: str(a) if for_echo else a.parent})
                 except ValueError as e:
                     pass
+    echo(f"repos found: {len(res)}")
     return res
 
 
 @cli.command()
 @click.option("-L", "--level", "level", default=2)
 @click.argument("thing")
-def list(level: int, thing):
+def ls(level: int, thing):
     """
     repos: list directories from root with .git directory
     files: list top level files in each repo
