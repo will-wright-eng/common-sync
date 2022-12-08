@@ -56,7 +56,7 @@ class PagePyApp(Book):
         super().__init__()
         self.repo_category = "python app"
         self.language = "python"
-        self.pages = self.pages.append([".dockerignore"])
+        self.pages = self.pages + [".dockerignore"]
 
 
 class PageExtension(Book):
@@ -68,7 +68,7 @@ class PageExtension(Book):
         super().__init__()
         self.repo_category = "browser extension"
         self.language = "javascript"
-        self.pages = self.pages.append(["manefest.json"])
+        self.pages = self.pages + ["manefest.json"]
         self.dir_depth = 2
 
 
