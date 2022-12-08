@@ -30,7 +30,7 @@ classifiers = [  #! Update me
 
 [tool.poetry.scripts]
 # Entry points for the package https://python-poetry.org/docs/pyproject/#scripts
-"synk" = "common_sync.__main__:cli"
+"cync" = "common_sync.__main__:cli"
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -61,6 +61,7 @@ pytest-cov = "^3.0.0"
 # https://github.com/psf/black
 target-version = ["py39"]
 line-length = 120
+length-sort = true
 color = true
 
 exclude = '''

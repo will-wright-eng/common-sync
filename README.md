@@ -8,6 +8,16 @@ The purpose of this project is to sync common files across github repos
 
 The manual process of managing files/setup/configs across personal project is arduous. File sync tools are nothing new but I want to build a custom CLI to do the job
 
+
+## Planning
+
+### Best Practices
+
+- add docstrings for docutils:
+  - https://peps.python.org/pep-0257/
+  - https://docutils.sourceforge.io/
+- .config file and confighandler
+
 ### Taxonomy
 
 library: set of books
@@ -56,7 +66,7 @@ pages:
 book: **python app**
 - inherits: python package
 pages:
-- root
+  - root
   - `.dockerignore`
 - .github/workflows/
   - `publish.yml`

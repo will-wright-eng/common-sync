@@ -1,3 +1,7 @@
+.env
+*.env
+**/.env
+
 mytoken.txt
 
 # Created by https://www.gitignore.io/api/osx,python,pycharm,windows,visualstudio,visualstudiocode
