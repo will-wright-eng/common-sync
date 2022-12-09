@@ -1,10 +1,10 @@
 # %reset -f
 
+import os
 import base64
 import datetime as dt
-import os
-from os.path import dirname, join
 from pprint import pprint
+from os.path import join, dirname
 
 import pandas as pd
 import requests
