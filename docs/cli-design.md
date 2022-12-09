@@ -26,13 +26,17 @@ One method of categorization is to look at the components necessary for the func
 I've found that more modern tools will invoke a credentials and/or config file(s) present in a dot directory in the root of the user file system first and foremost. Their flexability is to anchor all operations in this root directory in addition to working directory operations. Older tools tend towards a more atomic way of operating, where they will either only operate on the files present within the current working directory OR at an operating system level. Rarely ever both.
 
 So we have:
+
 1. the source code that dictates the tool, compiled into a binary within the local filesystem or within the operating system shared resources (ie usr = Unix System Resources)
+
 ```bash
 where python3
 #/usr/local/bin/python3
 #/usr/bin/python3
 ```
+
 2. the local setup files that are acessed anywhere in the file system
+
 ```bash
 aws configure list
 #      Name                    Value             Type    Location
@@ -49,7 +53,9 @@ tree ~/.aws -a
 #
 #0 directories, 2 files
 ```
+
 3. and assets within the filesystem of the current working directory
+
 ```bash
 ls -lah
 #total 328

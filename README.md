@@ -14,8 +14,8 @@ The manual process of managing files/setup/configs across personal project is ar
 ### Best Practices
 
 - add docstrings for docutils:
-  - https://peps.python.org/pep-0257/
-  - https://docutils.sourceforge.io/
+    - <https://peps.python.org/pep-0257/>
+    - <https://docutils.sourceforge.io/>
 - .config file and confighandler
 
 ### Taxonomy
@@ -31,60 +31,64 @@ index: location of files in repo
 
 book: **all repos**
 pages:
+
 - root
-  - `LICENSE`
-  - `CODEOWNERS`
-  - `README.md`
-  - `.markdownlint.jsonc`
+    - `LICENSE`
+    - `CODEOWNERS`
+    - `README.md`
+    - `.markdownlint.jsonc`
 - .github/
-  - `.stale.yml`
-  - `PULL_REQUEST_TEMPLATE.md`
-  - `dependabot.yml`
+    - `.stale.yml`
+    - `PULL_REQUEST_TEMPLATE.md`
+    - `dependabot.yml`
 - .github/ISSUE_TEMPLATE/
-  - `bug_report.md`
-  - `config.yml`
-  - `feature_request.md`
-  - `question.md`
+    - `bug_report.md`
+    - `config.yml`
+    - `feature_request.md`
+    - `question.md`
 
 ---
 
 book: **python package**
+
 - inherits: all repos
 pages:
 - root
-  - `.pre-commit-config.yaml`
-  - `.gitignore`
-  - `LICENSE`
-  - `CODEOWNERS`
-  - `setup.cfg`
-  - `setup.py` OR `pyyproject.toml`
+    - `.pre-commit-config.yaml`
+    - `.gitignore`
+    - `LICENSE`
+    - `CODEOWNERS`
+    - `setup.cfg`
+    - `setup.py` OR `pyyproject.toml`
 - .github/workflows/
-  - `publish.yml`
+    - `publish.yml`
 
 ---
 
 book: **python app**
+
 - inherits: python package
 pages:
-  - root
-  - `.dockerignore`
+    - root
+    - `.dockerignore`
 - .github/workflows/
-  - `publish.yml`
+    - `publish.yml`
 
 ---
 
 book: **javascript extension**
 pages:
+
 - root
-  - `.eslintrc.js`
-  - `.gitignore`
-  - `LICENSE`
-  - `CODEOWNERS`
+    - `.eslintrc.js`
+    - `.gitignore`
+    - `LICENSE`
+    - `CODEOWNERS`
 - .github/
 
 ## Other Projects
 
--https://github.com/haiwen/seafile
+-<https://github.com/haiwen/seafile>
 
 ## Template README
 

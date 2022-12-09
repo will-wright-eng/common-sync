@@ -1,7 +1,7 @@
 """csync cli docstring"""
 
-import json
 import os
+import json
 import pathlib
 from pprint import pprint
 
