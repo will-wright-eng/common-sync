@@ -8,8 +8,30 @@ The purpose of this project is to sync common files across github repos
 
 The manual process of managing files/setup/configs across personal project is arduous. File sync tools are nothing new but I want to build a custom CLI to do the job
 
-
 ## Planning
+
+two sides:
+
+- local file analysis: including search & replace, question flow for updating common files, comparison of common files (ideally in a diff format... [string diff?])
+- evaluating remote repos: determine similarities/differences between repos such as file structure, language, dependencies, lines of code, etc (which should probably be it's own project --> remote-eval or `reval`)
+
+[string diff?]: https://stackoverflow.com/questions/17904097/python-difference-between-two-strings
+
+### TODO
+
+1. bundle local file system operations into class framework
+    - wrapping/bundling os & pathlib methods
+2. explore diff tools
+    - <https://docs.python.org/3/library/difflib.html>
+    - <https://stackoverflow.com/questions/17904097/python-difference-between-two-strings>
+3.
+
+- better understand github API
+- this tool could easily dovetail into a github assessment tool
+    - <https://snyk.io/advisor/python/media-mgmt-cli>
+    - <https://piptrends.com/package/media-mgmt-cli>
+    - there is a clear trend around version releases and downloads
+    - is there reason to make some of these tools non-functional? it freaks me out that there are so many downloads of a project that is clearly amature
 
 ### Best Practices
 
