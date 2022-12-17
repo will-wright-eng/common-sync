@@ -8,6 +8,11 @@ The purpose of this project is to sync common files across github repos
 
 The manual process of managing files/setup/configs across personal project is arduous. File sync tools are nothing new but I want to build a custom CLI to do the job
 
+## Operations
+
+1. assess local files (diff/modify/change/update)
+2. git commands (main/checkout/add/commit/push/retry-once)
+
 ## Planning
 
 two sides:

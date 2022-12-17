@@ -1,7 +1,9 @@
 from typing import Any, Dict
 
 import os
+import difflib
 import pathlib
+from pprint import pprint
 
 
 class FileHandler:
@@ -10,13 +12,33 @@ class FileHandler:
     def __init__(self):
         self.repo_ident = ".git"
         self.repo_path = "repos"
+        self.target_file = None
+        self.target_file_pattern = None
+        self.target_repos = None
+        self.sot_file_name = None
+        self.sot_file_contents = None
 
     # set
-    def set_target_file(self, file_name):
-        self.target_file = file_name
+    def set_target_file_pattern(self, file_name_str):
+        self.target_file_pattern = file_name_str
 
     def set_repo_path(self, repo_path):
         self.repo_path = repo_path
+
+    def set_sot_file_name(self, file_name):
+        self.sot_file_name = file_name
+
+    def set_sot_file_contents(self, file_name):
+        self.sot_file_contents = file_contents
+
+    def set_target_file(self, file_name):
+        # check configs for corresponding sot file
+        resp = self.check_for_sot()
+        if resp:
+            # get sot file contents
+            self.sot_file_contents = None  # TODO
+        else:
+            self.target_file = file_name
 
     # get
     def get_file_list_str(self):
@@ -24,6 +46,19 @@ class FileHandler:
 
     def get_file_list_path(self):
         return [i for i in pathlib.Path(".").glob("*")]
+
+    def get_file_list_path_at_level(self, level: int = 2):
+        level_str = "/".join(level * ["*"])
+        return [i for i in pathlib.Path(".").glob(level_str)]
+
+    def get_files_in_dir(self):
+        return [f for f in pathlib.Path(".").glob("**/*") if f.is_file()]
+
+    def get_files_in_wd(self):
+        return [f for f in pathlib.Path(".").iterdir() if f.is_file()]
+
+    def get_dir_path(self):
+        self.get_file_list_path()
 
     def get_repos(self, level: int = 2) -> Dict[str, Any]:
         root = pathlib.Path.home() / self.repo_path
@@ -40,16 +75,25 @@ class FileHandler:
         print(f"repos found: {len(res)}")
         return res
 
+    def get_targets(self):
+        all_file_paths = self.get_files_in_dir()
+        target_file_paths = [file_path for file_path in all_file_paths if self.target_file_pattern in str(file_path)]
+        res = {}
+        for target in target_file_paths:
+            print(str(target))
+            with open(target) as file:
+                tmp = file.read()
+            res[str(target)] = {"file_path": target, "file_contents": tmp}
+        return res
+
+    # check
+    def check_for_sot(self):
+        # TODO
+        return False
+
     def check_wd_for_git_repo(self):
         return True if self.repo_ident in self.get_file_list_str() else False
 
-    def handle_resp(self, resp):
-        if isinstance(resp, int):
-            return resp
-        else:
-            return self.handle_resp(int(resp))
-
-    # methods
     def check_repos(self, file_name=None):
         """
         check sync against file_name in other repos
@@ -73,12 +117,51 @@ class FileHandler:
 
         repos = self.get_repos()
         exists_in = []
+        path_list = []
         for repo_name, repo_path in repos.items():
             for val in repo_path.glob("*"):
                 if str(self.target_file) == os.path.split(val)[-1]:
                     exists_in.append(repo_name)
 
-        exists_in = list(set(exists_in))
+        pprint(list(set(exists_in)))
+        self.target_repos = exists_in
+
+    # compare
+    def compare_targets_wd(self):
+        """
+        compare target files in working directory
+        """
+        res = self.get_targets()
+        if self.sot_file_name:
+            # get sot file contents
+            # sot_dict = {'file_path': target, 'file_contents':tmp}
+            pass
+        else:
+            # set first file as sot
+            sot_file_name = next(iter(res))
+            sot_dict = res.pop(sot_file_name)
+
+        for file in list(res):
+            # test against sot
+            f1_text, f2_text = res.get(file).get("file_contents").split("\n"), sot_dict.get("file_contents").split("\n")
+            f1_name, f2_name = file, sot_file_name
+            for line in difflib.unified_diff(f1_text, f2_text, fromfile=f1_name, tofile=f2_name):
+                print(line)
+        return res
+
+    def compare_targets_sot(self):
+        """
+        compare target file in repos against source of truth
+        """
+        # TODO
+        pass
+
+    # other
+    def handle_resp(self, resp):
+        if isinstance(resp, int):
+            return resp
+        else:
+            return self.handle_resp(int(resp))
 
     def ls(self, level: int, thing):
         """
