@@ -60,20 +60,46 @@ class FileHandler:
     def get_dir_path(self):
         self.get_file_list_path()
 
-    def get_repos(self, level: int = 2) -> Dict[str, Any]:
+    def get_file_contents(self, file_path):
+        with open(file_path) as file:
+            tmp = file.read()
+        return tmp
+
+    def get_repo_target_path_list(self):
+        res = []
+        repos_list = self.get_repos_bylevel()
+        for key, val in repos_list.items():
+            for file in val.iterdir():
+                if file.is_file() and self.target_file in str(file):
+                    res.append(file)
+        return res
+
+    def get_repos_bylevel(self, level: int = 3) -> Dict[str, Any]:
+        """
+        1. get assets down levels from repos path
+        2. check only for directories
+        """
         root = pathlib.Path.home() / self.repo_path
         level_str = "/".join(level * ["*"])
         res = {}
         for a in root.glob(level_str):
             if a.is_dir():
-                if self.repo_ident in str(a):
-                    tmp = str(a).replace(str(root), "").split("/")
+                # if self.repo_ident in str(a):
+                if ".git" in str(a) and ".github" not in str(a):
+                    tmp = str(a.relative_to(root)).split("/")[0]
+                    # tmp = str(a).replace(str(root), "").split("/")
                     try:
-                        res.update({tmp[tmp.index(self.repo_ident) - 1]: a.parent})
+                        # res.update({tmp[tmp.index(self.repo_ident) - 1]: a.parent})
+                        res.update({tmp: root / tmp})
                     except ValueError as e:
                         pass
-        print(f"repos found: {len(res)}")
-        return res
+
+        if len(res) == 0:
+            print("no repos found at this level")
+            return False
+        else:
+            print(f"repos found: {len(res)}")
+            return res
 
     def get_targets(self):
         all_file_paths = self.get_files_in_dir()
@@ -81,8 +107,7 @@ class FileHandler:
         res = {}
         for target in target_file_paths:
             print(str(target))
-            with open(target) as file:
-                tmp = file.read()
+            tmp = self.get_file_contents(target)
             res[str(target)] = {"file_path": target, "file_contents": tmp}
         return res
 
@@ -115,7 +140,7 @@ class FileHandler:
         else:
             self.target_file = file_name
 
-        repos = self.get_repos()
+        repos = self.get_repos_bylevel()
         exists_in = []
         path_list = []
         for repo_name, repo_path in repos.items():
@@ -169,7 +194,7 @@ class FileHandler:
         files: list top level files in each repo
         """
         if thing == "repos":
-            res = self.get_repos()
+            res = self.get_repos_bylevel()
         elif thing == "files":
             res = self.get_repos(level=1)
             for repo, dot_git_path in res.items():
