@@ -4,6 +4,8 @@
 import sys
 from importlib import metadata as importlib_metadata
 
+from .file_handler import FileHandler
+
 
 def get_version() -> str:
     try:
@@ -12,4 +14,5 @@ def get_version() -> str:
         return "unknown"
 
 
-version: str = get_version()
+__author__: str = "Will Wright"
+__version__: str = get_version()
