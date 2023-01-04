@@ -3,10 +3,6 @@ SHELL := /usr/bin/env bash
 PYTHON := python
 PYTHONPATH := `pwd`
 
-#* Docker variables
-IMAGE := common_sync
-VERSION := latest
-
 #* Setup
 .PHONY: $(shell sed -n -e '/^$$/ { n ; /^[^ .\#][^ ]*:/ { s/:.*$$// ; p ; } ; }' $(MAKEFILE_LIST))
 .DEFAULT_GOAL := help
@@ -16,6 +12,16 @@ help: ## list make commands
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 #* Commands
+docker-kill: ## kill all docker containers
+	@./scripts/docker-kill.sh
+
+# https://jupyter-docker-stacks.readthedocs.io/en/latest/
+run-nb: ## run jupyter notebook on port 10000
+	@echo ""
+	@echo "http://<hostname>:10000/?token=<token>"
+	@echo "http://127.0.0.1:10000/lab"
+	@echo ""
+	docker run -it --rm -p 10000:8888 -v "${HOME}/repos/_tmp":/home/jovyan/work jupyter/datascience-notebook:85f615d5cafa
 
 #* Poetry
 poetry-download: ## poetry-download
@@ -57,26 +63,9 @@ check-safety: ## check-safety
 	poetry run safety check --full-report
 	poetry run bandit -ll --recursive common_sync tests
 
-
-
 update-dev-deps: ## update-dev-deps
 	poetry add -D bandit@latest darglint@latest "isort[colors]@latest" mypy@latest pre-commit@latest pydocstyle@latest pylint@latest pytest@latest pyupgrade@latest safety@latest coverage@latest coverage-badge@latest pytest-html@latest pytest-cov@latest
 	poetry add -D --allow-prereleases black@latest
-
-#* Docker
-# Example: make docker-build VERSION=latest
-# Example: make docker-build IMAGE=some_name VERSION=0.1.0
-docker-build: ## docker-build
-	@echo Building docker $(IMAGE):$(VERSION) ...
-	docker build \
-		-t $(IMAGE):$(VERSION) . \
-		-f ./docker/Dockerfile --no-cache
-
-# Example: make docker-remove VERSION=latest
-# Example: make docker-remove IMAGE=some_name VERSION=0.1.0
-docker-remove: ## docker-remove
-	@echo Removing docker $(IMAGE):$(VERSION) ...
-	docker rmi -f $(IMAGE):$(VERSION)
 
 #* Cleaning
 pycache-remove: ## pycache-remove
@@ -97,8 +86,6 @@ pytestcache-remove: ## pytestcache-remove
 build-remove: ## build-remove
 	rm -rf build/
 
-# .PHONY:lint
-# lint: test check-codestyle mypy check-safety
+lint: test check-codestyle mypy check-safety
 
-# .PHONY:cleanup
-# cleanup: pycache-remove dsstore-remove mypycache-remove ipynbcheckpoints-remove pytestcache-remove
+cleanup: pycache-remove dsstore-remove mypycache-remove ipynbcheckpoints-remove pytestcache-remove
