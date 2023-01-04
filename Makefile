@@ -17,7 +17,10 @@ docker-kill: ## kill all docker containers
 
 # https://jupyter-docker-stacks.readthedocs.io/en/latest/
 run-nb: ## run jupyter notebook on port 10000
+	@echo ""
 	@echo "http://<hostname>:10000/?token=<token>"
+	@echo "http://127.0.0.1:10000/lab"
+	@echo ""
 	docker run -it --rm -p 10000:8888 -v "${HOME}/repos/_tmp":/home/jovyan/work jupyter/datascience-notebook:85f615d5cafa
 
 #* Poetry
