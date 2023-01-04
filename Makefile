@@ -18,7 +18,7 @@ docker-kill: ## kill all docker containers
 # https://jupyter-docker-stacks.readthedocs.io/en/latest/
 run-nb: ## run jupyter notebook on port 10000
 	@echo "http://<hostname>:10000/?token=<token>"
-	docker run -it --rm -p 10000:8888 -v "${PWD}":/home/jovyan/work jupyter/datascience-notebook:85f615d5cafa
+	docker run -it --rm -p 10000:8888 -v "${HOME}/repos/_tmp":/home/jovyan/work jupyter/datascience-notebook:85f615d5cafa
 
 #* Poetry
 poetry-download: ## poetry-download
