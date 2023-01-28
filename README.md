@@ -29,7 +29,6 @@ two sides:
 2. explore diff tools
     - <https://docs.python.org/3/library/difflib.html>
     - <https://stackoverflow.com/questions/17904097/python-difference-between-two-strings>
-3.
 
 - better understand github API
 - this tool could easily dovetail into a github assessment tool
@@ -86,7 +85,7 @@ pages:
     - `LICENSE`
     - `CODEOWNERS`
     - `setup.cfg`
-    - `setup.py` OR `pyyproject.toml`
+    - `pyyproject.toml`
 - .github/workflows/
     - `publish.yml`
 
@@ -117,7 +116,7 @@ pages:
 
 -<https://github.com/haiwen/seafile>
 
-## Template README
+# Template README
 
 <div align="center">
 
